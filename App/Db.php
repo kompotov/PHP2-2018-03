@@ -17,7 +17,13 @@ class Db
         );
     }
 
-    public function query($sql, $data=[], $class)
+    public function execute($query, $params=[])
+    {
+        $sth = $this->dbh->prepare($query);
+        return $sth->execute($params);
+    }
+
+    public function query($sql, $class, $data=[])
     {
         $sth = $this->dbh->prepare($sql);
         $sth->execute($data);
