@@ -13,15 +13,20 @@ class Article extends Model
     public $title;
     public $content;
 
-    public static function getLast3Articles()
+    public static function getNumOfLastArticles($num)
     {
         $db = new Db();
 
-        $sql = 'SELECT * FROM ' . self::TABLE . ' ORDER BY id DESC LIMIT 3';
+        $sql = 'SELECT * FROM ' . self::TABLE . ' ORDER BY id DESC LIMIT :limit';
         return $db->query(
             $sql,
             self::class,
-            []
+            [
+                'int' => [
+                    ':limit' => $num
+                ]
+            ]
         );
     }
+
 }

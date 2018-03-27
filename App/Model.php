@@ -16,8 +16,7 @@ abstract class Model
         $sql = 'SELECT * FROM ' . static::TABLE;
         return $db->query(
             $sql,
-            static::class,
-            []
+            static::class
         );
     }
 
@@ -29,7 +28,11 @@ abstract class Model
         $data = $db->query(
             $sql,
             static::class,
-            [':id' => $id]
+            [
+                'int' => [
+                    ':id' => $id
+                ]
+            ]
         );
         if ($data == []) {
             return false;

@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../autoload.php';
 
-$data = \App\Models\Article::getLast3Articles();
+$data = \App\Models\Article::getNumOfLastArticles(3);
 var_dump($data);
 
 $data = \App\Models\Article::findById(1);

@@ -26,7 +26,17 @@ class Db
     public function query($sql, $class, $data=[])
     {
         $sth = $this->dbh->prepare($sql);
-        $sth->execute($data);
+        if (isset($data['str'])) {
+            foreach ($data['str'] as $param => $str) {
+                $sth->bindParam($param, $str, \PDO::PARAM_STR);
+            }
+        }
+        if (isset($data['int'])) {
+            foreach ($data['int'] as $param => $int) {
+                $sth->bindParam($param, $int, \PDO::PARAM_INT);
+            }
+        }
+        $sth->execute();
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
