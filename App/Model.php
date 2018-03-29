@@ -40,4 +40,74 @@ abstract class Model
         return $data[0];
     }
 
+    public function insert()
+    {
+        $fields = get_object_vars($this);
+
+        $cols = [];
+        $data = [];
+
+        foreach ($fields as $name => $value) {
+            if ('id' == $name) {
+                continue;
+            }
+            $cols[] = $name;
+            $data[':' . $name] = $value;
+        }
+
+        $sql = 'INSERT INTO ' . static::TABLE . ' 
+            (' . implode(',', $cols) . ') 
+        VALUES 
+            (' . implode(',', array_keys($data)) . ')
+        ';
+
+        $db = new Db();
+        $db->execute($sql, $data);
+
+        $this->id = $db->getLastId();
+    }
+
+    public function update()
+    {
+        $fields = get_object_vars($this);
+
+        $cols = [];
+        $data = [];
+
+        foreach ($fields as $name => $value) {
+            if ('id' == $name) {
+                continue;
+            }
+            $cols[] = $name . '=:' . $name;
+            $data[':' . $name] = $value;
+        }
+
+        $sql = 'UPDATE ' . static::TABLE . ' 
+        SET ' . implode(',', $cols) . ' 
+        WHERE id=' . $this->id . '
+        ';
+
+        $db = new Db();
+        $db->execute($sql, $data);
+
+    }
+
+    public function save()
+    {
+        if (false === static::findById($this->id)) {
+            $this->insert();
+            return 'insert';
+        } else {
+            $this->update();
+            return 'update';
+        }
+    }
+
+    public function delete()
+    {
+        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id=' . $this->id;
+        $db = new Db();
+        $db->execute($sql);
+    }
+
 }

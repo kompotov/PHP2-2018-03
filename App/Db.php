@@ -9,11 +9,12 @@ class Db
 
     public function __construct()
     {
-        $config = (include __DIR__ . '/../config.php')['db'];
+        $config = Config::getObject();
+        $dbConfig = $config->data['db'];
         $this->dbh = new \PDO(
-            'mysql:host='.$config['host'] . ';dbname=' .$config['dbname'],
-            $config['user'],
-            $config['password']
+            'mysql:host='.$dbConfig['host'] . ';dbname=' .$dbConfig['dbname'],
+            $dbConfig['user'],
+            $dbConfig['password']
         );
     }
 
@@ -38,6 +39,11 @@ class Db
         }
         $sth->execute();
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+    }
+
+    public function getLastId()
+    {
+        return $this->dbh->lastInsertId();
     }
 
 }
