@@ -96,10 +96,8 @@ abstract class Model
     {
         if (false === static::findById($this->id)) {
             $this->insert();
-            return 'insert';
         } else {
             $this->update();
-            return 'update';
         }
     }
 
