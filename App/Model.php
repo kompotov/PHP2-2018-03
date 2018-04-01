@@ -2,6 +2,11 @@
 
 namespace App;
 
+/**
+ * Class Model
+ * @package App
+ */
+
 abstract class Model
 {
 
@@ -9,7 +14,10 @@ abstract class Model
 
     public $id;
 
-    public static function findAll()
+    /**
+     * @return array
+     */
+    public static function findAll(): array
     {
         $db = new Db();
 
@@ -20,7 +28,10 @@ abstract class Model
         );
     }
 
-    public static function findById($id)
+    /**
+     * @param int $id
+     */
+    public static function findById(int $id)
     {
         $db = new Db();
 
@@ -39,6 +50,7 @@ abstract class Model
         }
         return $data[0];
     }
+
 
     public function insert()
     {

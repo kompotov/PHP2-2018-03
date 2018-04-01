@@ -2,6 +2,8 @@
 
 require __DIR__ . '/autoload.php';
 
-$data = \App\Models\Article::getNumOfLastArticles(3);
+$view = new \App\View();
 
-include __DIR__ . '/templates/temp_main-page.php';
+$view->articles = \App\Models\Article::getNumOfLastArticles(3);
+
+$view->display(__DIR__ . '/templates/temp_main-page.php');

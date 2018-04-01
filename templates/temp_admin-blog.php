@@ -10,7 +10,7 @@
         <th>Удалить</th>
         <th>Читать</th>
     </tr>
-    <?php foreach ($data as $article): ?>
+    <?php foreach ($this->articles as $article): ?>
     <tr>
         <td><?php echo $article->id; ?></td>
         <td><?php echo $article->title; ?></td>
