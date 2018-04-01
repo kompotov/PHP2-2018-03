@@ -76,6 +76,7 @@ abstract class Model
 
         foreach ($fields as $name => $value) {
             if ('id' == $name) {
+                $data[':' . $name] = $value;
                 continue;
             }
             $cols[] = $name . '=:' . $name;
@@ -84,8 +85,7 @@ abstract class Model
 
         $sql = 'UPDATE ' . static::TABLE . ' 
         SET ' . implode(',', $cols) . ' 
-        WHERE id=' . $this->id . '
-        ';
+        WHERE id=:id';
 
         $db = new Db();
         $db->execute($sql, $data);
@@ -94,10 +94,10 @@ abstract class Model
 
     public function save()
     {
-        if (false === static::findById($this->id)) {
-            $this->insert();
-        } else {
+        if (isset($this->id)) {
             $this->update();
+        } else {
+            $this->insert();
         }
     }
 

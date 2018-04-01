@@ -20,6 +20,12 @@ $article->save();
 $news = \App\Models\Article::findAll();
 var_dump($news);
 
+$article->title = 'Обновленный заголовок';
+$article->save();
+
+$news = \App\Models\Article::findAll();
+var_dump($news);
+
 $article->delete();
 
 $news = \App\Models\Article::findAll();
