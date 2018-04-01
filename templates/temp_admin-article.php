@@ -1,4 +1,4 @@
-<form action="/admin-article.php?id=<?php echo $article->id; ?>" method="post">
+<form action="/admin-article-update.php?id=<?php echo $article->id; ?>" method="post">
     <label>
         <span>Заголовок:</span>
         <input type="text" value="<?php echo $article->title; ?>" name="title">

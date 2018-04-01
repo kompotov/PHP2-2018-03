@@ -10,4 +10,6 @@ if (false === $article) {
     exit;
 }
 
-include __DIR__ . '/templates/temp_admin-article.php';
+$article->delete();
+header("Location: /admin-blog.php");
+exit;
