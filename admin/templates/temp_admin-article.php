@@ -1,10 +1,4 @@
-<?php
-
-var_dump($this->article);
-var_dump($this->article->author);
-
-?>
-<form action="/admin-article.php?id=<?php echo $this->article->id; ?>" method="post">
+<form action="/admin-article-update.php?id=<?php echo $this->article->id; ?>" method="post">
     <label>
         <span>Заголовок:</span>
         <input type="text" value="<?php echo $this->article->title; ?>" name="title">
