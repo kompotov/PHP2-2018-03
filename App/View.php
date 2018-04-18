@@ -4,13 +4,13 @@ namespace App;
 
 class View
 {
-    protected $data = [];
+    protected $count;
 
-    public function assign($name, $value)
-    {
-        $this->data[$name] = $value;
-    }
+    use ArbitraryProperties;
 
+    /**
+     * @param string $template
+     */
     public function display($template)
     {
         include $template;

@@ -2,11 +2,6 @@
 
 namespace App;
 
-/**
- * Class Model
- * @package App
- */
-
 abstract class Model
 {
 
@@ -20,7 +15,6 @@ abstract class Model
     public static function findAll(): array
     {
         $db = new Db();
-
         $sql = 'SELECT * FROM ' . static::TABLE;
         return $db->query(
             $sql,
@@ -30,19 +24,17 @@ abstract class Model
 
     /**
      * @param int $id
+     * @return Model|false
      */
-    public static function findById(int $id)
+    public static function findById($id)
     {
         $db = new Db();
-
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id=:id';
         $data = $db->query(
             $sql,
             static::class,
             [
-                'int' => [
-                    ':id' => $id
-                ]
+                ':id' => $id
             ]
         );
         if ($data == []) {
@@ -50,7 +42,6 @@ abstract class Model
         }
         return $data[0];
     }
-
 
     public function insert()
     {
@@ -115,9 +106,9 @@ abstract class Model
 
     public function delete()
     {
-        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id=' . $this->id;
+        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id=:id';
         $db = new Db();
-        $db->execute($sql);
+        $db->execute($sql, [':id' => $this->id]);
     }
 
 }

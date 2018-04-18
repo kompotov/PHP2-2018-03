@@ -1,9 +1,10 @@
 <?php
 
-require __DIR__ . '/autoload.php';
+require __DIR__ . '/App/autoload.php';
 
-$view = new \App\View();
+$ctrl = $_GET['ctrl'] ?? 'Index';
 
-$view->articles = \App\Models\Article::getNumOfLastArticles(3);
+$class = 'App\Controllers\\' . $ctrl;
 
-$view->display(__DIR__ . '/templates/temp_main-page.php');
+$ctrl = new $class();
+$ctrl();

@@ -9,9 +9,12 @@ class Config
 
     protected function __construct()
     {
-        $this->data = include __DIR__ . '/../config.php';
+        $this->data = include __DIR__ . '/configData.php';
     }
 
+    /**
+     * @return Config
+     */
     public static function getObject()
     {
         if (static::$object === null) {

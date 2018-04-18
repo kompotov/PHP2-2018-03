@@ -14,6 +14,10 @@ class Article extends Model
     public $content;
     public $author_id;
 
+    /**
+     * @param string $name
+     * @return Model|false|null
+     */
     public function __get($name)
     {
         if ($name == 'author') {
@@ -24,19 +28,17 @@ class Article extends Model
         return null;
     }
 
+    /**
+     * @param int $num
+     * @return array
+     */
     public static function getNumOfLastArticles($num)
     {
         $db = new Db();
-
-        $sql = 'SELECT * FROM ' . self::TABLE . ' ORDER BY id DESC LIMIT :limit';
+        $sql = 'SELECT * FROM ' . self::TABLE . ' ORDER BY id DESC LIMIT ' . (int)$num;
         return $db->query(
             $sql,
-            self::class,
-            [
-                'int' => [
-                    ':limit' => $num
-                ]
-            ]
+            self::class
         );
     }
 
