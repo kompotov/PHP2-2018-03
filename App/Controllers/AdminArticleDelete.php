@@ -11,14 +11,14 @@ class AdminArticleDelete extends AdminController
     protected function handle()
     {
 
-        $this->view->article = Article::findById($_GET['id']);
+        $article = Article::findById($_GET['id']);
 
-        if (false === $this->view->article) {
+        if (false === $article) {
             header("Location: /admin/?admin=yes");
             exit;
         }
 
-        $this->view->article->delete();
+        $article->delete();
 
         header("Location: /admin/?admin=yes");
 

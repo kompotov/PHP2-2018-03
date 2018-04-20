@@ -11,10 +11,10 @@ class AdminArticleCreate extends AdminController
     protected function handle()
     {
 
-        $this->view->article = new Article();
-        $this->view->article->insert();
+        $article = new Article();
+        $article->insert();
 
-        header("Location: /admin/?admin=yes&ctrl=AdminArticle&id=" . $this->view->article->id);
+        header("Location: /admin/?admin=yes&ctrl=AdminArticle&id=" . $article->id);
 
     }
 
