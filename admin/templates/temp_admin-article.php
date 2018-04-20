@@ -1,4 +1,4 @@
-<form action="/admin-article-update.php?id=<?php echo $this->article->id; ?>" method="post">
+<form action="/admin/admin-article-update.php?id=<?php echo $this->article->id; ?>" method="post">
     <label>
         <span>Заголовок:</span>
         <input type="text" value="<?php echo $this->article->title; ?>" name="title">
@@ -12,4 +12,4 @@
     <input type="submit" value="Сохранить">
 </form>
 
-<a href="/admin-blog.php">Вернуться к списку статей</a>
+<a href="/admin/admin-blog.php">Вернуться к списку статей</a>

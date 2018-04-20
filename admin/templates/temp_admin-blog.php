@@ -1,4 +1,4 @@
-<a href="/admin-article-create.php">Создать новую статью</a>
+<a href="/admin/admin-article-create.php">Создать новую статью</a>
 
 <hr>
 
@@ -6,6 +6,7 @@
     <tr>
         <th>Id</th>
         <th>Заголовок</th>
+        <th>Автор</th>
         <th>Редактировать</th>
         <th>Удалить</th>
         <th>Читать</th>
@@ -14,8 +15,13 @@
     <tr>
         <td><?php echo $article->id; ?></td>
         <td><?php echo $article->title; ?></td>
-        <td><a href="/admin-article.php?id=<?php echo $article->id; ?>">Редактировать</a></td>
-        <td><a href="/admin-article-delete.php?id=<?php echo $article->id; ?>">Удалить</a></td>
+        <?php if ($article->author): ?>
+            <td><?php echo $article->author->name; ?></td>
+        <?php else: ?>
+            <td>—</td>
+        <?php endif; ?>
+        <td><a href="/admin/admin-article.php?id=<?php echo $article->id; ?>">Редактировать</a></td>
+        <td><a href="/admin/admin-article-delete.php?id=<?php echo $article->id; ?>">Удалить</a></td>
         <td><a href="/article.php?id=<?php echo $article->id; ?>">Читать</a></td>
     </tr>
     <?php endforeach; ?>
