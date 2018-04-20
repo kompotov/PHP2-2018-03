@@ -10,12 +10,14 @@ class AdminArticle extends AdminController
 
     protected function handle()
     {
-        $this->view->article = Article::findById($_GET['id']);
+        $article = Article::findById($_GET['id']);
 
-        if (false === $this->view->article) {
+        if (false === $article) {
             header("Location: /admin/?admin=yes");
             exit;
         }
+
+        $this->view->article = $article;
 
         $this->view->display(__DIR__ . '/../../admin/templates/temp_admin-article.php');
     }

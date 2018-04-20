@@ -11,24 +11,24 @@ class AdminArticleUpdate extends AdminController
     protected function handle()
     {
 
-        $this->view->article = Article::findById($_GET['id']);
+        $article = Article::findById($_GET['id']);
 
-        if (false === $this->view->article) {
+        if (false === $article) {
             header("Location: /admin/?admin=yes");
             exit;
         }
 
         if (isset($_POST['title']) && isset($_POST['content'])) {
             if ($_POST['title'] != '') {
-                $this->view->article->title = $_POST['title'];
+                $article->title = $_POST['title'];
             }
             if ($_POST['content'] != '') {
-                $this->view->article->content = $_POST['content'];
+                $article->content = $_POST['content'];
             }
-            $this->view->article->save();
+            $article->save();
         }
 
-        header("Location: /admin/?admin=yes&ctrl=AdminArticle&id=" . $this->view->article->id);
+        header("Location: /admin/?admin=yes&ctrl=AdminArticle&id=" . $article->id);
 
     }
 
