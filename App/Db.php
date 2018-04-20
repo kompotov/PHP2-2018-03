@@ -2,20 +2,30 @@
 
 namespace App;
 
+use App\Exceptions\DbException;
+
 class Db
 {
 
     protected $dbh;
 
+    /**
+     * Db constructor.
+     * @throws DbException
+     */
     public function __construct()
     {
         $config = Config::getObject();
         $dbConfig = $config->data['db'];
-        $this->dbh = new \PDO(
-            'mysql:host='.$dbConfig['host'] . ';dbname=' .$dbConfig['dbname'],
-            $dbConfig['user'],
-            $dbConfig['password']
-        );
+        try {
+            $this->dbh = new \PDO(
+                'mysql:host=' . $dbConfig['host'] . ';dbname=' . $dbConfig['dbname'],
+                $dbConfig['user'],
+                $dbConfig['password']
+            );
+        } catch (\PDOException $e) {
+            throw new DbException('Ошибка подключения');
+        }
     }
 
     /**
@@ -34,11 +44,15 @@ class Db
      * @param string $class
      * @param array $data
      * @return array
+     * @throws DbException
      */
     public function query($sql, $class, $data=[])
     {
         $sth = $this->dbh->prepare($sql);
-        $sth->execute($data);
+        $res = $sth->execute($data);
+        if (!$res) {
+            throw new DbException();
+        }
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
