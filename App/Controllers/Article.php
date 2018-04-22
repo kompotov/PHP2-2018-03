@@ -6,6 +6,9 @@ use App\Controller;
 
 class Article extends Controller
 {
+    /**
+     * @throws \App\Exceptions\DbException
+     */
     protected function handle()
     {
         $article = \App\Models\Article::findById($_GET['id']);

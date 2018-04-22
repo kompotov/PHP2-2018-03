@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\AdminController;
 use App\Models\Article;
 
-class AdminArticleDelete extends AdminController
+class ArticleDelete extends AdminController
 {
 
+    /**
+     * @throws \App\Exceptions\DbException
+     * @throws \App\Exceptions\NotFoundException
+     */
     protected function handle()
     {
 

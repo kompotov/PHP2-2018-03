@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\AdminController;
 use App\Models\Article;
 
-class AdminArticleUpdate extends AdminController
+class ArticleUpdate extends AdminController
 {
 
+    /**
+     * @throws \App\Exceptions\DbException
+     * @throws \App\Exceptions\NotFoundException
+     */
     protected function handle()
     {
 
@@ -28,7 +32,7 @@ class AdminArticleUpdate extends AdminController
             $article->save();
         }
 
-        header("Location: /admin/?admin=yes&ctrl=AdminArticle&id=" . $article->id);
+        header("Location: /admin/?admin=yes&ctrl=Article&id=" . $article->id);
 
     }
 

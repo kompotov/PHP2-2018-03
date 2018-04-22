@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Exceptions\Errors;
+use App\Exceptions\NotFoundException;
+
 abstract class Model
 {
 
@@ -11,6 +14,7 @@ abstract class Model
 
     /**
      * @return array
+     * @throws Exceptions\DbException
      */
     public static function findAll(): array
     {
@@ -25,6 +29,8 @@ abstract class Model
     /**
      * @param int $id
      * @return Model|false
+     * @throws Exceptions\DbException
+     * @throws NotFoundException
      */
     public static function findById($id)
     {
@@ -38,11 +44,14 @@ abstract class Model
             ]
         );
         if ($data == []) {
-            return false;
+            throw new NotFoundException();
         }
         return $data[0];
     }
 
+    /**
+     * @throws Exceptions\DbException
+     */
     public function insert()
     {
         $fields = get_object_vars($this);
@@ -70,6 +79,9 @@ abstract class Model
         $this->id = $db->getLastId();
     }
 
+    /**
+     * @throws Exceptions\DbException
+     */
     public function update()
     {
         $fields = get_object_vars($this);
@@ -92,9 +104,11 @@ abstract class Model
 
         $db = new Db();
         $db->execute($sql, $data);
-
     }
 
+    /**
+     * @throws Exceptions\DbException
+     */
     public function save()
     {
         if (isset($this->id)) {
@@ -104,11 +118,48 @@ abstract class Model
         }
     }
 
+    /**
+     * @throws Exceptions\DbException
+     */
     public function delete()
     {
         $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id=:id';
         $db = new Db();
         $db->execute($sql, [':id' => $this->id]);
+    }
+
+    /**
+     * @param iterable $data
+     * @throws Errors
+     */
+    public function fill(iterable $data)
+    {
+        $errors = new Errors();
+
+        foreach ($data as $name => $value) {
+            if ('id' == $name) {
+                continue;
+            }
+
+            if (strlen($data[$name]) < 4 || false !== strpos($data[$name], '42') ) {
+
+                if (strlen($data[$name]) < 4) {
+                    $errors->addError(new \Exception('Поле ' . $name . ' короче 4 символов'));
+                }
+
+                if (strpos($data[$name], '42') !== false) {
+                    $errors->addError(new \Exception('В поле ' . $name . ' есть число 42'));
+                }
+
+                continue;
+            }
+
+            $this->$name = $value;
+        }
+
+        if (!$errors->isErrorsArrayEmpty()) {
+            throw $errors;
+        }
     }
 
 }

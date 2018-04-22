@@ -8,6 +8,9 @@ use App\Models\Article;
 class Index extends Controller
 {
 
+    /**
+     * @throws \App\Exceptions\DbException
+     */
     protected function handle()
     {
         $this->view->articles = Article::getNumOfLastArticles(3);

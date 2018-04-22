@@ -17,6 +17,7 @@ class Article extends Model
     /**
      * @param string $name
      * @return Model|false|null
+     * @throws \App\Exceptions\DbException
      */
     public function __get($name)
     {
@@ -31,6 +32,7 @@ class Article extends Model
     /**
      * @param int $num
      * @return array
+     * @throws \App\Exceptions\DbException
      */
     public static function getNumOfLastArticles($num)
     {

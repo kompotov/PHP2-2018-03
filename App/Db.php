@@ -29,14 +29,19 @@ class Db
     }
 
     /**
-     * @param string $query
+     * @param string $sql
      * @param array $params
      * @return bool
+     * @throws DbException
      */
-    public function execute($query, $params=[])
+    public function execute($sql, $params=[])
     {
-        $sth = $this->dbh->prepare($query);
-        return $sth->execute($params);
+        $sth = $this->dbh->prepare($sql);
+        $res = $sth->execute($params);
+        if (!$res) {
+            throw new DbException();
+        }
+        return $res;
     }
 
     /**

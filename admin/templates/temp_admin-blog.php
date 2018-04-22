@@ -1,4 +1,4 @@
-<a href="/admin/?admin=yes&ctrl=AdminArticleCreate">Создать новую статью</a>
+<a href="/admin/?admin=yes&ctrl=ArticleCreate">Создать новую статью</a>
 
 <hr>
 
@@ -20,8 +20,8 @@
         <?php else: ?>
             <td>—</td>
         <?php endif; ?>
-        <td><a href="/admin/?admin=yes&ctrl=AdminArticle&id=<?php echo $article->id; ?>">Редактировать</a></td>
-        <td><a href="/admin/?admin=yes&ctrl=AdminArticleDelete&id=<?php echo $article->id; ?>">Удалить</a></td>
+        <td><a href="/admin/?admin=yes&ctrl=Article&id=<?php echo $article->id; ?>">Редактировать</a></td>
+        <td><a href="/admin/?admin=yes&ctrl=ArticleDelete&id=<?php echo $article->id; ?>">Удалить</a></td>
         <td><a href="/?ctrl=Article&id=<?php echo $article->id; ?>">Читать</a></td>
     </tr>
     <?php endforeach; ?>
