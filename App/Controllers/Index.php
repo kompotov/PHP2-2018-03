@@ -10,11 +10,15 @@ class Index extends Controller
 
     /**
      * @throws \App\Exceptions\DbException
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     protected function handle()
     {
-        $this->view->articles = Article::getNumOfLastArticles(3);
-        $this->view->display(__DIR__ . '/../../templates/temp_main-page.php');
+        $articles = Article::getNumOfLastArticles(3);
+        $template = $this->twig->load('temp_main-page.twig');
+        $template->display(['articles' => $articles]);
     }
 
 }

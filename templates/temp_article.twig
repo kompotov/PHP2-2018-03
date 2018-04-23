@@ -1,0 +1,8 @@
+<h1>{{ article.title }}</h1>
+{% if article.author.name is defined %}
+    <small>Автор: {{ article.author.name }}</small>
+{% else %}
+    <small>Автор: —</small>
+{% endif %}
+<p>{{ article.content }}</p>
+<p><a href="/index.php">Назад</a></p>

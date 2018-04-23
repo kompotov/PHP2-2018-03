@@ -8,6 +8,10 @@ class Article extends Controller
 {
     /**
      * @throws \App\Exceptions\DbException
+     * @throws \App\Exceptions\NotFoundException
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     protected function handle()
     {
@@ -18,8 +22,8 @@ class Article extends Controller
             exit;
         }
 
-        $this->view->article = $article;
+        $template = $this->twig->load('temp_article.twig');
 
-        $this->view->display(__DIR__ . '/../../templates/temp_article.php');
+        $template->display(['article' => $article]);
     }
 }

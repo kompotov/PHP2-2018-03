@@ -5,11 +5,13 @@ namespace App;
 abstract class Controller
 {
 
-    protected $view;
+    protected $twig;
 
     public function __construct()
     {
-        $this->view = new View();
+        $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../templates');
+        $this->twig = new \Twig_Environment($loader, ['strict_variables' => true]);
+
     }
 
     protected function access(): bool
