@@ -2,7 +2,7 @@
     <?php foreach ($this->articles as $article): ?>
     <li>
         <h2><?php echo $article->title; ?></h2>
-        <?php if ($article->author): ?>
+        <?php if (isset($article->author->name)): ?>
             <small>Автор: <?php echo $article->author->name; ?></small>
         <?php else: ?>
             <small>Автор: —</small>

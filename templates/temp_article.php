@@ -1,5 +1,5 @@
 <h1><?php echo $this->article->title; ?></h1>
-<?php if ($this->article->author): ?>
+<?php if (isset($article->author->name)): ?>
     <small>Автор: <?php echo $this->article->author->name; ?></small>
 <?php else: ?>
     <small>Автор: —</small>
