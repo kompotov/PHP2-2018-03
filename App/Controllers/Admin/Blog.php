@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\AdminController;
+use App\AdminDataTable;
 use App\Models\Article;
 
 class Blog extends AdminController
@@ -13,7 +14,23 @@ class Blog extends AdminController
      */
     protected function handle()
     {
-        $this->view->articles = Article::findAll();
+        $articles = Article::findAll();
+        $functions = [
+            'id' => function(Article $article) {
+                return $article->id;
+            },
+            'title' => function(Article $article) {
+                return $article->title;
+            },
+            'trimmedText' => function(Article $article) {
+                return mb_strimwidth($article->content, 0, 12, '...');
+            },
+            'author' => function(Article $article) {
+                return $article->author->name ?? '—';
+            }
+        ];
+        $table = new AdminDataTable($articles, $functions);
+        $this->view->articles = $table->render();
         $this->view->display(__DIR__ . '/../../../admin/templates/temp_admin-blog.php');
     }
 

@@ -13,14 +13,14 @@ abstract class Model
     public $id;
 
     /**
-     * @return array
+     * @return \Generator
      * @throws Exceptions\DbException
      */
-    public static function findAll(): array
+    public static function findAll()
     {
         $db = new Db();
         $sql = 'SELECT * FROM ' . static::TABLE;
-        return $db->query(
+        return $db->queryEach(
             $sql,
             static::class
         );

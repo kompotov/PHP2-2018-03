@@ -62,6 +62,26 @@ class Db
     }
 
     /**
+     * @param string $sql
+     * @param string $class
+     * @param array $data
+     * @return \Generator
+     * @throws DbException
+     */
+    public function queryEach($sql, $class, $data=[])
+    {
+        $sth = $this->dbh->prepare($sql);
+        $res = $sth->execute($data);
+        if (!$res) {
+            throw new DbException();
+        }
+        $sth->setFetchMode(\PDO::FETCH_CLASS, $class);
+        while ($row = $sth->fetch()) {
+            yield $row;
+        }
+    }
+
+    /**
      * @return string
      */
     public function getLastId()
