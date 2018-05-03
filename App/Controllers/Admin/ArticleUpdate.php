@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\AdminController;
+use App\Exceptions\NotFoundException;
 use App\Models\Article;
 
 class ArticleUpdate extends AdminController
@@ -18,8 +19,7 @@ class ArticleUpdate extends AdminController
         $article = Article::findById($_GET['id']);
 
         if (false === $article) {
-            header("Location: /admin/?admin=yes");
-            exit;
+            throw new NotFoundException();
         }
 
         if (isset($_POST['title']) && isset($_POST['content'])) {
@@ -32,7 +32,7 @@ class ArticleUpdate extends AdminController
             $article->save();
         }
 
-        header("Location: /admin/?admin=yes&ctrl=Article&id=" . $article->id);
+        header('Location: /admin/?admin=yes&ctrl=Article&id=' . $article->id);
 
     }
 

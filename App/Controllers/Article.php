@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controller;
+use App\Exceptions\NotFoundException;
 
 class Article extends Controller
 {
@@ -18,8 +19,7 @@ class Article extends Controller
         $article = \App\Models\Article::findById($_GET['id']);
 
         if (false === $article) {
-            header("Location: /");
-            exit;
+            throw new NotFoundException();
         }
 
         $template = $this->twig->load('temp_article.twig');

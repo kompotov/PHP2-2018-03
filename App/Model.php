@@ -30,7 +30,6 @@ abstract class Model
      * @param int $id
      * @return Model|false
      * @throws Exceptions\DbException
-     * @throws NotFoundException
      */
     public static function findById($id)
     {
@@ -43,10 +42,7 @@ abstract class Model
                 ':id' => $id
             ]
         );
-        if ($data == []) {
-            throw new NotFoundException();
-        }
-        return $data[0];
+        return $data[0] ?? false;
     }
 
     /**
@@ -135,31 +131,36 @@ abstract class Model
     public function fill(iterable $data)
     {
         $errors = new Errors();
-
         foreach ($data as $name => $value) {
-            if ('id' == $name) {
+            if (!$this->existsField($name)) {
+                $errors->addError(new \Exception('В моделе нет данного свойства.'));
                 continue;
             }
-
-            if (strlen($data[$name]) < 4 || false !== strpos($data[$name], '42') ) {
-
-                if (strlen($data[$name]) < 4) {
-                    $errors->addError(new \Exception('Поле ' . $name . ' короче 4 символов'));
+            $validator = 'validate' . $name . 'Field';
+            if (method_exists($this, $validator)) {
+                try {
+                    $this->$validator($value);
+                } catch (\Exception $e) {
+                    $errors->addError($e);
+                    continue;
                 }
-
-                if (strpos($data[$name], '42') !== false) {
-                    $errors->addError(new \Exception('В поле ' . $name . ' есть число 42'));
-                }
-
-                continue;
             }
-
             $this->$name = $value;
         }
-
         if (!$errors->isErrorsArrayEmpty()) {
             throw $errors;
         }
+    }
+
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function existsField($name)
+    {
+        $fields = get_object_vars($this);
+        return array_key_exists($name, $fields);
     }
 
 }

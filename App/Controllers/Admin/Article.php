@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\AdminController;
+use App\Exceptions\NotFoundException;
 
 class Article extends AdminController
 {
@@ -16,8 +17,7 @@ class Article extends AdminController
         $article = \App\Models\Article::findById($_GET['id']);
 
         if (false === $article) {
-            header("Location: /admin/?admin=yes");
-            exit;
+            throw new NotFoundException();
         }
 
         $this->view->article = $article;

@@ -13,11 +13,7 @@ try {
     $ctrl = new $class();
     $ctrl();
 } catch (DbException $e) {
-    $class = 'App\Controllers\Error';
-    $ctrl = new $class();
-    $ctrl();
+    header('Location: /?ctrl=Error');
 } catch (NotFoundException $e) {
-    $class = 'App\Controllers\NotFound';
-    $ctrl = new $class();
-    $ctrl();
+    header('Location: /?ctrl=NotFound');
 }
