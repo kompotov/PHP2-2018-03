@@ -18,7 +18,6 @@ class Article extends Model
      * @param string $name
      * @return Model|false|null
      * @throws \App\Exceptions\DbException
-     * @throws \App\Exceptions\NotFoundException
      */
     public function __get($name)
     {

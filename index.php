@@ -13,7 +13,7 @@ try {
     $ctrl = new $class();
     $ctrl();
 } catch (DbException $e) {
-    header("Location: /?ctrl=Error");
+    header('Location: /?ctrl=Error');
 } catch (NotFoundException $e) {
-    header("Location: /?ctrl=NotFound");
+    header('Location: /?ctrl=NotFound');
 }
