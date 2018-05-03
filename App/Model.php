@@ -30,7 +30,6 @@ abstract class Model
      * @param int $id
      * @return Model|false
      * @throws Exceptions\DbException
-     * @throws NotFoundException
      */
     public static function findById($id)
     {
@@ -43,10 +42,7 @@ abstract class Model
                 ':id' => $id
             ]
         );
-        if ($data == []) {
-            throw new NotFoundException();
-        }
-        return $data[0];
+        return $data[0] ?? false;
     }
 
     /**
@@ -140,20 +136,6 @@ abstract class Model
             if ('id' == $name) {
                 continue;
             }
-
-            if (strlen($data[$name]) < 4 || false !== strpos($data[$name], '42') ) {
-
-                if (strlen($data[$name]) < 4) {
-                    $errors->addError(new \Exception('Поле ' . $name . ' короче 4 символов'));
-                }
-
-                if (strpos($data[$name], '42') !== false) {
-                    $errors->addError(new \Exception('В поле ' . $name . ' есть число 42'));
-                }
-
-                continue;
-            }
-
             $this->$name = $value;
         }
 

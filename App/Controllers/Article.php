@@ -3,19 +3,20 @@
 namespace App\Controllers;
 
 use App\Controller;
+use App\Exceptions\NotFoundException;
 
 class Article extends Controller
 {
     /**
      * @throws \App\Exceptions\DbException
+     * @throws NotFoundException
      */
     protected function handle()
     {
         $article = \App\Models\Article::findById($_GET['id']);
 
         if (false === $article) {
-            header("Location: /");
-            exit;
+            throw new NotFoundException();
         }
 
         $this->view->article = $article;
