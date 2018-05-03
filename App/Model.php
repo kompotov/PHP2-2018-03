@@ -133,16 +133,34 @@ abstract class Model
         $errors = new Errors();
 
         foreach ($data as $name => $value) {
-            if ('id' == $name) {
-                $errors->addError(new \Exception('Поле id редактировать нельзя.'));
+
+            if (!$this->existsField($name)) {
+                $errors->addError(new \Exception('В моделе нет данного свойства.'));
                 continue;
             }
+
+            $validator = 'validate' . $name . 'Field';
+            if (method_exists($this, $validator)) {
+                try {
+                    $this->$validator($value);
+                } catch (\Exception $e) {
+                    $errors->addError($e);
+                    continue;
+                }
+            }
+
             $this->$name = $value;
         }
 
         if (!$errors->isErrorsArrayEmpty()) {
             throw $errors;
         }
+    }
+
+    public function existsField($name)
+    {
+        $fields = get_object_vars($this);
+        return array_key_exists($name, $fields);
     }
 
 }
