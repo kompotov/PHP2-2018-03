@@ -32,9 +32,11 @@ class Article extends Model
     public function __isset($name)
     {
         if ($name == 'author') {
-            return true;
+            if (isset($this->author_id)) {
+                return true;
+            }
         }
-        return false;
+        return isset($this->$name);
     }
 
     /**

@@ -15,7 +15,7 @@
     <tr>
         <td><?php echo $article->id; ?></td>
         <td><?php echo $article->title; ?></td>
-        <?php if (isset($article->author->name)): ?>
+        <?php if (isset($article->author)): ?>
             <td><?php echo $article->author->name; ?></td>
         <?php else: ?>
             <td>—</td>
