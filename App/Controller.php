@@ -11,7 +11,6 @@ abstract class Controller
     {
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '/../templates');
         $this->twig = new \Twig_Environment($loader, ['strict_variables' => true]);
-
     }
 
     protected function access(): bool

@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\AdminController;
+use App\Exceptions\NotFoundException;
 use App\Models\Article;
 
 class ArticleUpdate extends AdminController
@@ -10,7 +11,7 @@ class ArticleUpdate extends AdminController
 
     /**
      * @throws \App\Exceptions\DbException
-     * @throws \App\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     protected function handle()
     {
@@ -18,8 +19,7 @@ class ArticleUpdate extends AdminController
         $article = Article::findById($_GET['id']);
 
         if (false === $article) {
-            header("Location: /admin/?admin=yes");
-            exit;
+            throw new NotFoundException();
         }
 
         if (isset($_POST['title']) && isset($_POST['content'])) {

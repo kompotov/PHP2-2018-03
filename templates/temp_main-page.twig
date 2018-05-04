@@ -2,11 +2,13 @@
     {% for article in articles %}
     <li>
         <h2>{{ article.title }}</h2>
-        {% if article.author.name is defined %}
-            <small>Автор: {{ article.author.name }}</small>
-        {% else %}
-            <small>Автор: —</small>
-        {% endif %}
+        <small>Автор:
+            {% if article.author is defined %}
+                {{ article.author.name }}
+            {% else %}
+                —
+            {% endif %}
+        </small>
         <p>{{ article.content }} <a href="/?ctrl=Article&id={{ article.id }}">Читать дальше</a></p>
     </li>
     {% endfor %}

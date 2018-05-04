@@ -17,7 +17,7 @@ class ArticleCreate extends AdminController
         $article = new Article();
         $article->insert();
 
-        header("Location: /admin/?admin=yes&ctrl=Article&id=" . $article->id);
+        header('Location: /admin/?admin=yes&ctrl=Article&id=' . $article->id);
 
     }
 

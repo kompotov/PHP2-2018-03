@@ -26,7 +26,7 @@ class Blog extends AdminController
                 return mb_strimwidth($article->content, 0, 12, '...');
             },
             'author' => function(Article $article) {
-                return $article->author->name ?? '—';
+                return isset($article->author) ? $article->author->name : '—';
             }
         ];
         $table = new AdminDataTable($articles, $functions);

@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\AdminController;
+use App\Exceptions\NotFoundException;
 use App\Models\Article;
 
 class ArticleDelete extends AdminController
@@ -10,7 +11,7 @@ class ArticleDelete extends AdminController
 
     /**
      * @throws \App\Exceptions\DbException
-     * @throws \App\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     protected function handle()
     {
@@ -18,13 +19,12 @@ class ArticleDelete extends AdminController
         $article = Article::findById($_GET['id']);
 
         if (false === $article) {
-            header("Location: /admin/?admin=yes");
-            exit;
+            throw new NotFoundException();
         }
 
         $article->delete();
 
-        header("Location: /admin/?admin=yes");
+        header('Location: /admin/?admin=yes');
 
     }
 

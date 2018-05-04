@@ -18,7 +18,6 @@ class Article extends Model
      * @param string $name
      * @return Model|false|null
      * @throws \App\Exceptions\DbException
-     * @throws \App\Exceptions\NotFoundException
      */
     public function __get($name)
     {
@@ -30,12 +29,18 @@ class Article extends Model
         return null;
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
     public function __isset($name)
     {
         if ($name == 'author') {
-            return true;
+            if (isset($this->author_id)) {
+                return true;
+            }
         }
-        return false;
+        return isset($this->$name);
     }
 
     /**
