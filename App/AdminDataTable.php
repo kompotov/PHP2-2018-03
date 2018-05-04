@@ -6,21 +6,19 @@ class AdminDataTable
 {
     protected $models;
     protected $functions;
+    protected $view;
 
     public function __construct(iterable $models, iterable $functions)
     {
         $this->models = $models;
         $this->functions = $functions;
+        $this->view = new View();
     }
 
     public function render()
     {
-        foreach ($this->models as $model) {
-            $res = [];
-            foreach ($this->functions as $name => $function) {
-                $res[$name] = $function($model);
-            }
-            yield $res;
-        }
+        $this->view->functions = $this->functions;
+        $this->view->models = $this->models;
+        return $this->view->render(__DIR__ . '/../admin/templates/temp_admin-data-table.php');
     }
 }

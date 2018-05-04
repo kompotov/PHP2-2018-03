@@ -1,26 +1,38 @@
+<?php
+
+use App\Models\Article;
+
+$functions = [
+    'Id' => function(Article $article) {
+        return $article->id;
+    },
+    'Заголовок' => function(Article $article) {
+        return $article->title;
+    },
+    'Текст' => function(Article $article) {
+        return mb_strimwidth($article->content, 0, 12, '...');
+    },
+    'Автор' => function(Article $article) {
+        return isset($article->author) ? $article->author->name : '—';
+    },
+    'Редактировать' => function(Article $article) {
+        return '<a href="/admin/?admin=yes&ctrl=Article&id=' . $article->id . '">Редактировать</a>';
+    },
+    'Удалить' => function(Article $article) {
+        return '<a href="/admin/?admin=yes&ctrl=ArticleDelete&id=' . $article->id . '">Удалить</a>';
+    },
+    'Читать' => function(Article $article) {
+        return '<a href="/?ctrl=Article&id=' . $article->id . '">Читать</a>';
+    },
+];
+
+$table = new \App\AdminDataTable($this->articles, $functions);
+
+?>
+
 <a href="/admin/?admin=yes&ctrl=ArticleCreate">Создать новую статью</a>
 
 <hr>
 
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Заголовок</th>
-        <th>Текст</th>
-        <th>Автор</th>
-        <th>Редактировать</th>
-        <th>Удалить</th>
-        <th>Читать</th>
-    </tr>
-    <?php foreach ($this->articles as $article): ?>
-        <tr>
-            <td><?php echo $article['id'] ?></td>
-            <td><?php echo $article['title']; ?></td>
-            <td><?php echo $article['trimmedText']; ?></td>
-            <td><?php echo $article['author']; ?></td>
-            <td><a href="/admin/?admin=yes&ctrl=Article&id=<?php echo $article['id']; ?>">Редактировать</a></td>
-            <td><a href="/admin/?admin=yes&ctrl=ArticleDelete&id=<?php echo $article['id']; ?>">Удалить</a></td>
-            <td><a href="/?ctrl=Article&id=<?php echo $article['id']; ?>">Читать</a></td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<?= $table->render(); ?>
+
